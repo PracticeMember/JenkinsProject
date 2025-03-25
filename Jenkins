@@ -1,15 +1,15 @@
 pipeline{
     agent any
-    	stages{
-    	    stage('git pull'){
-    	        steps{
-    	        
-    	        }
-
-    	        
-    	    }
-
-    	}
-
-
+    stages{
+        stage('Checkout'){
+            steps{
+                git 'https://github.com/PracticeMember/JenkinsProject.git'
+            }
+        }
+        stage('Execute'){
+            steps{
+                bat 'mvn test'
+            }
+        }
+    }
 }
