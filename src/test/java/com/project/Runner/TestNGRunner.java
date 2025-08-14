@@ -8,7 +8,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-		features = "src/test/java/com/project/Features" , // path of  feature files
+		features = "classpath:com/project/Features" , // path of  feature files
 		glue = { "com.project.StepDefinitions" } ,//path of step definitions
 		plugin ={"pretty",
 				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",

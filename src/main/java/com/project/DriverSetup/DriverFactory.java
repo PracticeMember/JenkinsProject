@@ -6,8 +6,10 @@ import java.util.Arrays;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverService;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.project.Utilities.PropertyFileHandler;
@@ -44,11 +46,13 @@ public class DriverFactory {
 		    options.addArguments("--ignore-certificate-errors");
 		    options.setProxy(selProxy);
 		    driverThread.set(new ChromeDriver(options));
-
+		    ChromeDriverService service=new ChromeDriverService.Builder().build();
+		    service.getUrl();
+		   System.out.println(service.getUrl()+" is the port number");
 		}
 		
 			else if (browser.equalsIgnoreCase("firefox")) {
-			// firefix driver
+			// firefox driver
 		    WebDriverManager.firefoxdriver().setup();
 			FirefoxOptions options=new FirefoxOptions();
 			options.addArguments("--disable-popup-blocking");
@@ -57,7 +61,7 @@ public class DriverFactory {
 		    options.setProxy(selProxy);
 			
 		    driverThread.set( new FirefoxDriver(options));
-			
+		
 		}
 		} 
 		catch(Exception e) {

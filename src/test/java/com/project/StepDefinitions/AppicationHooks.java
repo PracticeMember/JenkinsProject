@@ -24,18 +24,18 @@ public class AppicationHooks {
 	private WebDriver driver;
 	private Context context;
 	
-	@Before
-	public void setup(Scenario scenario){
-		driverFactory = new DriverFactory();
-		driver = driverFactory.init_driver();
-		context=new Context();
-		context.setScenario(scenario);
-
-	   driver.manage().deleteAllCookies();
-       driver.manage().window().maximize();
-       driver.manage().timeouts().pageLoadTimeout( Duration.ofSeconds(100));
-       driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-	}
+//	@Before
+//	public void setup(Scenario scenario){
+//		driverFactory = new DriverFactory();
+//		driver = driverFactory.init_driver();
+//		context=new Context();
+//		context.setScenario(scenario);
+//
+//	   driver.manage().deleteAllCookies();
+//       driver.manage().window().maximize();
+//       driver.manage().timeouts().pageLoadTimeout( Duration.ofSeconds(100));
+//       driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+//	}
 
 	
 	@After
