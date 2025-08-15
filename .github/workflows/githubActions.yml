@@ -41,9 +41,14 @@ jobs:
       - name: Run tests with Maven
         run: mvn test -DsuiteXmlFile=TestNG.xml
 
+      - name: Check for Extent Report
+        run: |
+          echo "Listing target/Reports directory:"
+          ls -l target/Reports/
+          
       - name: Archive test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports
-          path: target/surefire-reports/
+          name: extent-report
+          path: target/Reports
