@@ -1,5 +1,6 @@
 package com.project.StepDefinitions;
 
+import com.project.DriverSetup.DriverFactory;
 import com.project.pages.Login;
 
 import io.cucumber.java.en.*;
@@ -9,12 +10,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.Assert.*;
 
 public class LoginSteps {
-    WebDriver driver;
+    WebDriver driver=DriverFactory.createDriver();
     Login loginPage;
 
     @Given("I open the login page")
     public void i_open_the_login_page() {
-        driver = new ChromeDriver();
+       // driver = new ChromeDriver();
         loginPage = new Login(driver);
         loginPage.open();
     }

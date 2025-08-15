@@ -28,7 +28,7 @@ public class Logger {
 			break;
 		case FAIL:
 			updatedMessage= "<div class='Fail'>"+message+"</div>";
-			captureSnapshot();
+			//captureSnapshot();
 			break;
 		case INFO:
 			updatedMessage= "<div class='Info'>"+message+"</div>";
@@ -43,17 +43,17 @@ public class Logger {
 		
 	}
 	
-	public static void captureSnapshot()  {
-		try {
-		Scenario scenario=Context.getScenario();
-		File screenshot= ((TakesScreenshot)DriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);
-		byte[] content=FileUtils.readFileToByteArray(screenshot);
-		scenario.attach(content, "image/png","Image");
-		}
-		catch(Exception e) {
-		e.printStackTrace();
-		}
-	}
+//	public static void captureSnapshot()  {
+//		try {
+//		Scenario scenario=Context.getScenario();
+//		File screenshot= ((TakesScreenshot)DriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);
+//		byte[] content=FileUtils.readFileToByteArray(screenshot);
+//		scenario.attach(content, "image/png","Image");
+//		}
+//		catch(Exception e) {
+//		e.printStackTrace();
+//		}
+//	}
 	
 	public static String getDate() {
 		DateFormat dateformat=new SimpleDateFormat("yyyy_MM_dd HH_mm_ss");
