@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <theme>dark</theme>
+        <encoding>UTF-8</encoding>
+        <protocol>https</protocol>
+        <documentTitle>Automation Report</documentTitle>
+        <reportName>Extent Report</reportName>
+        <testViewChartLocation>bottom</testViewChartLocation>
+
+      <scripts>
+    <![CDATA[
+    // 1. Immediately inject the style to hide step logs on initial render
+    (function() {
+        var style = document.createElement('style');
+        style.innerHTML = '.step > div { display: none !important; } .step { cursor: pointer !important; }';
+        document.head.appendChild(style);
+    })();
+
+    // 2. Use global event delegation to capture clicks perfectly
+    document.addEventListener('click', function(e) {
+        // Find if the click or any of its parent targets is a step container
+        var stepTarget = e.target.closest('.step');
+        if (!stepTarget) return;
+
+        // If the user clicked inside an already opened log block, don't collapse it
+        if (e.target.closest('.Pass')) return;
+
+        // Loop through the immediate child divs of the step container
+        var childDivs = stepTarget.children;
+        for (var i = 0; i < childDivs.length; i++) {
+            var child = childDivs[i];
+            
+            // Only toggle div tags (skip the <span> holding Gherkin text)
+            if (child.tagName.toLowerCase() === 'div') {
+                // Read current computed layout display state
+                var currentDisplay = window.getComputedStyle(child).display;
+                
+                if (currentDisplay === 'none') {
+                    child.style.setProperty('display', 'block', 'important');
+                } else {
+                    child.style.setProperty('display', 'none', 'important');
+                }
+            }
+        }
+    });
+    ]]>
+</scripts>
+
+        <css>
+            <![CDATA[
+            /* Separate the steps cleanly so they don't look like a single giant block */
+            .step {
+                background-color: #2d3748 !important; /* Elegant dark grey card layout */
+                border: 1px solid #4a5568 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+            }
+            .step:hover {
+                background-color: #4a5568 !important; /* Clear visual hover feedback */
+                transition: background 0.15s ease-in-out;
+            }
+            .step span {
+                font-weight: 600;
+                font-size: 1.05em;
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+            /* Style the inner log blocks cleanly when they drop down */
+            .step > div {
+                margin-top: 6px;
+                padding-left: 15px;
+            }
+            .Pass {
+                background-color: #1a202c !important; /* Distinct dark background for logs */
+                color: #a0aec0 !important;             /* Muted grey text color for clear insight */
+                border-left: 3px solid #48bb78 !important; /* Clean green passing strip accent */
+                padding: 6px 12px !important;
+                font-family: monospace !important;
+                font-size: 0.9em !important;
+                border-radius: 2px;
+            }
+            ]]>
+        </css>
+    </configuration>
+</extentreports>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <theme>dark</theme>
+        <encoding>UTF-8</encoding>
+        <protocol>https</protocol>
+        <documentTitle>Automation Report</documentTitle>
+        <reportName>Extent Report</reportName>
+        <testViewChartLocation>bottom</testViewChartLocation>
+
+        <scripts>
+            <![CDATA[
+            // Keeps structural support clean for third-party execution wrappers if needed
+            ]]>
+        </scripts>
+
+        <css>
+            <![CDATA[
+            /* 1. FORCE THE ACCORDION INTERACTION (Pure CSS Toggle) */
+            /* Hide all log-containing divs inside the steps on page load */
+            .step > div {
+                max-height: 0 !important;
+                overflow: hidden !important;
+                transition: max-height 0.25s ease-out !important;
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Make the entire step row a highly noticeable clickable block */
+            .step {
+                cursor: pointer !important;
+                margin-bottom: 8px !important;
+                padding: 12px 15px !important;
+                border-radius: 4px !important;
+                display: block !important;
+                position: relative !important;
+                border: 1px solid rgba(255,255,255,0.05) !important;
+            }
+
+            /* When a step element is targeted or hovered, natively open up the log child divs */
+            .step:active > div, 
+            .step:focus > div,
+            .step:hover > div {
+                max-height: 500px !important; /* Forces layout drop-down expand */
+                margin-top: 6px !important;
+            }
+
+            /* 2. ENHANCE VISUAL STEP COLOR HIGHLIGHTS (Pass vs Failure Status) */
+            /* If the step passed (.pass-bg) -> Set structural background container color to green */
+            .step.pass-bg {
+                background-color: #1e4620 !important; /* Muted corporate green */
+                color: #ffffff !important;
+            }
+            .step.pass-bg span {
+                color: #ffffff !important;
+                font-weight: 600 !important;
+            }
+
+            /* If the step failed (.fail-bg) -> Force step container background to red */
+            .step.fail-bg {
+                background-color: #631c1c !important; /* Deep failure crimson red */
+                color: #ffffff !important;
+            }
+            .step.fail-bg span {
+                color: #ffffff !important;
+                font-weight: 700 !important;
+            }
+
+            /* 3. FORMAT THE INNER CODES & LOG STRINGS INSIDE EACH DROP DOWN ELEMENT */
+            .Pass, .Fail {
+                font-family: monospace !important;
+                font-size: 0.9em !important;
+                padding: 8px 12px !important;
+                margin-top: 4px !important;
+                margin-bottom: 4px !important;
+                border-radius: 3px !important;
+                display: block !important;
+                width: 100% !important;
+            }
+
+            /* Styling specific to passing log blocks */
+            .Pass {
+                background-color: #111827 !important; /* Sleek terminal dark gray background */
+                color: #4ade80 !important;             /* Vibrant light green print */
+                border-left: 4px solid #22c55e !important;
+            }
+
+            /* Styling specific to failure log blocks */
+            .Fail {
+                background-color: #111827 !important; /* Sleek terminal dark gray background */
+                color: #f87171 !important;             /* Vibrant error red print */
+                border-left: 4px solid #ef4444 !important;
+                font-weight: bold !important;
+            }
+            ]]>
+        </css>
+    </configuration>
+</extentreports>

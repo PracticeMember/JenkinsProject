@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <theme>dark</theme>
+        <encoding>UTF-8</encoding>
+        <protocol>https</protocol>
+        <documentTitle>Automation Report</documentTitle>
+        <reportName>Extent Report</reportName>
+        <testViewChartLocation>bottom</testViewChartLocation>
+
+        <scripts>
+            <![CDATA[
+            (function() {
+                // Periodically wrap steps in an active state controller without resetting Extent classes
+                setInterval(function() {
+                    var steps = document.querySelectorAll('.step:not([data-click-bound])');
+                    steps.forEach(function(step) {
+                        step.setAttribute('data-click-bound', 'true');
+                        step.addEventListener('click', function(e) {
+                            if (e.target.closest('.Pass') || e.target.closest('.Fail')) return;
+                            this.classList.toggle('clicked-open');
+                        });
+                    });
+                }, 500);
+            })();
+            ]]>
+        </scripts>
+
+        <css>
+            <![CDATA[
+            /* 1. GLASSY CORE CARD LAYOUT & MECHANICS */
+            .step {
+                background-color: #2d3748 !important; /* Elegant dark grey card layout remains static */
+                border: 1px solid #4a5568 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+                cursor: pointer !important;
+                padding: 10px 14px !important;
+                border-radius: 4px !important;
+                position: relative !important;
+            }
+
+            /* Clear visual hover feedback */
+            .step:hover {
+                background-color: #4a5568 !important; 
+                transition: background 0.15s ease-in-out;
+            }
+
+            .step span {
+                font-size: 1.05em;
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+
+            /* Initial State: Hide all inner log blocks */
+            .step > div {
+                max-height: 0 !important;
+                overflow: hidden !important;
+                transition: max-height 0.2s ease-in-out !important;
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* HOVER PEEK & CLICK LOCK POPUP MECHANICS */
+            .step:hover > div,
+            .step.clicked-open > div {
+                max-height: 2000px !important;
+                margin-top: 6px !important;
+            }
+
+            /* 2. TARGET STEP TEXT STRINGS ONLY FOR STATUS COLORS */
+            /* If the step passes, turn ONLY the text string clean green */
+            .step.pass-bg span {
+                color: #48bb78 !important; 
+                font-weight: 600 !important;
+            }
+
+            /* If the step fails, turn ONLY the text string intense crimson red */
+            .step.fail-bg span {
+                color: #f87171 !important; 
+                font-weight: 700 !important;
+            }
+
+            /* 3. LOG LAYOUT ADJUSTMENTS & INNER SPACING */
+            /* Shift the log items slightly to the right */
+            .step > div {
+                padding-left: 20px !important;
+            }
+
+            .Pass, .Fail {
+                background-color: #1a202c !important; /* Distinct dark background for logs */
+                font-family: monospace !important;
+                font-size: 0.9em !important;
+                border-radius: 2px;
+                display: block !important;
+                width: 98% !important;
+                
+                /* Compact text spacing parameters */
+                padding: 4px 10px !important;    
+                margin-top: 2px !important;      
+                margin-bottom: 2px !important;   
+            }
+
+            /* Clean green passing strip accent */
+            .Pass {
+                color: #a0aec0 !important;             /* Muted grey text color */
+                border-left: 3px solid #48bb78 !important; 
+            }
+
+            /* Clean red failing strip accent */
+            .Fail {
+                color: #f87171 !important;             /* Vibrant error red text */
+                border-left: 3px solid #ef4444 !important;
+                font-weight: bold !important;
+            }
+            ]]>
+        </css>
+    </configuration>
+</extentreports>

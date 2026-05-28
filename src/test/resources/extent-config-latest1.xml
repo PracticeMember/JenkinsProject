@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <theme>dark</theme>
+        <encoding>UTF-8</encoding>
+        <protocol>https</protocol>
+        <documentTitle>Automation Report</documentTitle>
+        <reportName>Extent Report</reportName>
+        <testViewChartLocation>bottom</testViewChartLocation>
+
+        <scripts>
+            <![CDATA[
+            ]]>
+        </scripts>
+
+        <css>
+            <![CDATA[
+            /* 1. SEPARATE AND HIGHLIGHT SCENARIO EXAMPLES */
+            /* This targets the main card wrapper for each example row */
+            .card {
+                background-color: rgba(30, 41, 59, 0.3) !important; /* Extremely faint dark tint to group contents */
+                border: 1px solid rgba(74, 85, 104, 0.4) !important; /* Subtle framing border */
+                border-radius: 6px !important;
+                margin-top: 14px !important;
+                margin-bottom: 24px !important;
+                padding: 10px !important; /* Gives breathing room inside the example block */
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+                
+                /* Left accent line that makes each example card pop */
+                border-left: 4px solid #4a5568 !important; 
+            }
+            
+            /* Clean up the native headers so they don't double-border inside our new frame */
+            .card-body, .collapse, .card-header, .card-title, .card-header[role="tab"] {
+                background-color: transparent !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* 2. UNIFIED GLASSY SCENARIO NODE ROW (TOP BAR) */
+            .node {
+                background-color: #2d3748 !important; 
+                border: 1px solid #4a5568 !important;  
+                padding: 12px 16px !important;
+                border-radius: 4px !important;
+                margin-bottom: 12px !important;
+                cursor: pointer !important;
+                
+                display: flex !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                line-height: normal !important;
+            }
+
+            .node.collapsed, .node.expanded, .card-header .node, .card-title .node {
+                background-color: #2d3748 !important;
+                background: #2d3748 !important;
+                border: 1px solid #4a5568 !important;
+            }
+
+            .node .test-status-name {
+                font-family: sans-serif !important;
+                font-size: 1.15em !important;
+                font-weight: 600 !important;
+                color: #e2e8f0 !important; 
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* 3. BORDERLESS TEXT-ONLY STATUS BADGES */
+            .node .badge {
+                background-color: transparent !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                font-family: sans-serif !important;
+                font-size: 1.1em !important;
+                font-weight: 800 !important;
+                padding: 0 !important;
+                margin: 0 14px 0 0 !important; 
+                text-transform: uppercase !important;
+            }
+            .node .badge.pass-bg { color: #48bb78 !important; }
+            .node .badge.fail-bg { color: #f87171 !important; }
+
+            /* 4. STEP CARD LAYOUT & ANIMATED ARROWS */
+            .step {
+                background-color: #2d3748 !important; 
+                background: #2d3748 !important;
+                border: 1px solid #4a5568 !important;
+                margin-bottom: 8px !important;
+                display: block !important;
+                cursor: pointer !important;
+                padding: 10px 40px 10px 14px !important; 
+                border-radius: 4px !important;
+                position: relative !important;
+            }
+
+            .step:hover {
+                background-color: #4a5568 !important; 
+                background: #4a5568 !important;
+                transition: background 0.15s ease-in-out;
+            }
+
+            .step span {
+                font-size: 1.05em;
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+
+            /* Arrow indicator pointing right */
+            .step::after {
+                content: "❯" !important;
+                position: absolute !important;
+                right: 18px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                font-size: 0.85em !important;
+                color: #718096 !important;
+                transition: transform 0.2s ease, color 0.2s ease !important;
+            }
+
+            /* Rotates on hover */
+            .step:hover::after {
+                transform: translateY(-50%) rotate(90deg) !important;
+                color: #e2e8f0 !important;
+            }
+
+            /* Hide all inner logs by default */
+            .step > div {
+                max-height: 0 !important;
+                overflow: hidden !important;
+                transition: max-height 0.2s ease-in-out !important;
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Hover Open Slide Interaction */
+            .step:hover > div {
+                max-height: 2000px !important;
+                margin-top: 6px !important;
+            }
+
+            /* 5. STEP TEXT STATUS COLOR CODES (TEXT ONLY) */
+            .step.pass-bg span, .step[status="pass"] span {
+                color: #48bb78 !important; 
+                font-weight: 600 !important;
+            }
+            .step.fail-bg span, .step[status="fail"] span {
+                color: #f87171 !important; 
+                font-weight: 700 !important;
+            }
+
+            /* 6. LOG CONSOLE ALIGNMENT & SPACING */
+            .step > div {
+                padding-left: 20px !important; 
+            }
+
+            .Pass, .Fail {
+                background-color: #1a202c !important; 
+                background: #1a202c !important;
+                font-family: monospace !important;
+                font-size: 0.9em !important;
+                border-radius: 2px;
+                display: block !important;
+                width: 98% !important;
+                padding: 6px 12px !important;
+                margin-top: 2px !important;      
+                margin-bottom: 2px !important;   
+            }
+
+            .Pass {
+                color: #a0aec0 !important;             
+                border-left: 3px solid #48bb78 !important; 
+            }
+
+            .Fail {
+                color: #f87171 !important;             
+                border-left: 3px solid #ef4444 !important;
+                font-weight: bold !important;
+            }
+            ]]>
+        </css>
+    </configuration>
+</extentreports>

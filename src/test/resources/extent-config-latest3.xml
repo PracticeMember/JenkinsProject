@@ -11,11 +11,11 @@
         <js>
             <![CDATA[
             document.addEventListener("DOMContentLoaded", function() {
-                // Stable click-toggle management
                 document.body.addEventListener('click', function(event) {
                     var step = event.target.closest('.step');
                     if (step) {
-                        if (event.target.closest('.Pass') || event.target.closest('.Fail') || event.target.closest('a') || event.target.closest('table')) {
+                        // Bypass collapse triggers if clicking a screenshot thumbnail zoom link
+                        if (event.target.closest('.Pass') || event.target.closest('.Fail') || event.target.closest('a')) {
                             return; 
                         }
                         step.classList.toggle('is-open');
@@ -27,9 +27,7 @@
 
         <css>
             <![CDATA[
-            /* =========================================================================
-               RESTORED EARLY STABLE BASE LAYOUT (ORIGINAL DESIGN)
-               ========================================================================= */
+            /* COMPACT WRAPPER PROFILE */
             .card-header, .card-header[role="tab"] {
                 background-color: transparent !important;
                 background: transparent !important;
@@ -50,6 +48,7 @@
                 margin: 0 !important;
             }
 
+            /* MASTER SCENARIO HEADER TIGHTENING (.NODE) */
             .node {
                 background-color: #1e293b !important; 
                 border: 1px solid #334155 !important;  
@@ -104,14 +103,18 @@
             .node .badge.pass-bg { color: #4ade80 !important; }
             .node .badge.fail-bg { color: #f87171 !important; }
 
+
+            /* STEP ACCORDION CONTROL CONTAINER */
             .step {
                 background-color: #273549 !important; 
                 border: 1px solid transparent !important; 
                 border-left: 3px solid #475569 !important; 
+                
                 margin-left: 28px !important; 
                 margin-right: 4px !important;
                 margin-top: 0 !important;
                 margin-bottom: 4px !important; 
+                
                 display: block !important;
                 cursor: pointer !important;
                 padding: 8px 36px 8px 14px !important; 
@@ -125,6 +128,7 @@
                 display: inline-block;
             }
 
+            /* Indication Chevron Arrow Layout */
             .step::after {
                 content: "❯" !important;
                 position: absolute !important;
@@ -135,17 +139,25 @@
                 transition: transform 0.2s ease, color 0.2s ease !important;
             }
 
-            .step:hover { background-color: #2d3d54 !important; }
+            /* Simple hover glow hints */
+            .step:hover {
+                background-color: #2d3d54 !important;
+            }
 
+            /* PINS HIGHLIGHTS STATE WHEN CLICKED TO .is-open */
             .step.is-open {
                 background-color: #334155 !important; 
                 border-left-color: #38bdf8 !important;
             }
+            
             .step.is-open::after {
                 transform: rotate(90deg) !important;
                 color: #cbd5e1 !important;
             }
 
+
+            /* LOG CONTAINER DISPLAY RULES */
+            /* Closed default state */
             .step > div {
                 max-height: 0 !important;
                 overflow: hidden !important;
@@ -156,6 +168,7 @@
                 padding: 0 !important;
             }
 
+            /* FIX: Maps directly to click-state class layout instead of cursor positioning */
             .step.is-open > div {
                 max-height: 4000px !important; 
                 opacity: 1 !important;
@@ -164,33 +177,64 @@
                 overflow: visible !important;
             }
 
+
+            /* STEP STATUS SIGNALS */
             .step.pass-bg span, .step[status="pass"] span { color: #4ade80 !important; font-weight: 600 !important; }
             .step.fail-bg span, .step[status="fail"] span { color: #f87171 !important; font-weight: 700 !important; }
 
-            .step > div { padding-left: 8px !important; }
 
-            /* =========================================================================
-               CLEAN LOG CONSOLE RESET
-               ========================================================================= */
+            /* MINIMAL LOG CONSOLE & SYSTEM PANELS */
+            .step > div {
+                padding-left: 8px !important; 
+            }
+
             .Pass, .Fail {
                 background-color: #0f172a !important; 
                 font-family: monospace !important;
                 font-size: 0.85em !important;
                 border-radius: 4px;
-                display: block !important; 
+                display: block !important;
                 width: 99% !important;
-                box-sizing: border-box !important;
                 padding: 6px 10px !important;
                 margin-top: 3px !important;      
                 margin-bottom: 3px !important;   
                 border: none !important;
             }
+
             .Pass { color: #94a3b8 !important; border-left: 3px solid #4ade80 !important; }
             .Fail { color: #f87171 !important; border-left: 3px solid #ef4444 !important; font-weight: bold !important; }
+            
+            .Pass a[data-featherlight], 
+            .Fail a[data-featherlight] {
+                display: inline-block !important;
+                background: transparent !important;
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
+                margin-top: 5px !important; 
+                cursor: zoom-in !important;
+            }
 
-            /* Strip out default media elements if alternate framework blocks generate them */
-            .media-container, .step-attachments {
-                display: none !important;
+            /* SCREENSHOT EMBEDS POSITIONING */
+            .screenshot {
+                height: 65px !important;       
+                width: auto !important;         
+                max-width: 200px !important;    
+                object-fit: contain !important; 
+                background-color: #1e293b !important; 
+                border: 1px solid #334155 !important;  
+                border-radius: 4px !important;
+                margin: 0 !important;
+                display: block !important;
+                transition: all 0.15s ease-in-out !important;
+            }
+           
+            .Pass a[data-featherlight]:hover .screenshot,
+            .Fail a[data-featherlight]:hover .screenshot {
+                border-color: #38bdf8 !important; 
+                transform: scale(1.03) !important; 
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
             }
             ]]>
         </css>

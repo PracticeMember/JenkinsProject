@@ -9,14 +9,13 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/test/java/com/project/Features/Login.feature" , // path of  feature files
+		features = "classpath:features/Login.feature",
 		glue = { "com.project.StepDefinitions" } ,//path of step definitions
-		tags="@Login",
 		plugin ={"pretty",
 				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 				"html:target/report.html"},
 		monochrome=true
 )
-public class CucumberTestRunner{
+public class CucumberTest{
 
 }

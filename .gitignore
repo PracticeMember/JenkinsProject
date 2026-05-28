@@ -1,4 +1,8 @@
 /target/
 /test-output/
 *.class
-*.log
+*.log.classpath
+.settings/
+.factorypath
+*.png
+*.jpg

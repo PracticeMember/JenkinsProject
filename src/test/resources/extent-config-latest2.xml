@@ -8,34 +8,22 @@
         <reportName>Extent Report</reportName>
         <testViewChartLocation>bottom</testViewChartLocation>
 
-        <js>
+        <scripts>
             <![CDATA[
-            document.addEventListener("DOMContentLoaded", function() {
-                // Stable click-toggle management
-                document.body.addEventListener('click', function(event) {
-                    var step = event.target.closest('.step');
-                    if (step) {
-                        if (event.target.closest('.Pass') || event.target.closest('.Fail') || event.target.closest('a') || event.target.closest('table')) {
-                            return; 
-                        }
-                        step.classList.toggle('is-open');
-                    }
-                });
-            });
             ]]>
-        </js>
+        </scripts>
 
         <css>
             <![CDATA[
-            /* =========================================================================
-               RESTORED EARLY STABLE BASE LAYOUT (ORIGINAL DESIGN)
-               ========================================================================= */
+            /* 1. COMPACT WRAPPER PROFILE (ELIMINATES LARGE GAPS) */
             .card-header, .card-header[role="tab"] {
                 background-color: transparent !important;
                 background: transparent !important;
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
+                
+                /* Heavily reduced margins to bring scenario nodes close together */
                 margin-top: 6px !important; 
                 margin-bottom: 2px !important;
                 display: block !important;
@@ -50,13 +38,15 @@
                 margin: 0 !important;
             }
 
+            /* 2. MASTER SCENARIO HEADER TIGHTENING (.NODE) */
             .node {
                 background-color: #1e293b !important; 
                 border: 1px solid #334155 !important;  
-                padding: 10px 14px !important; 
+                padding: 10px 14px !important; /* Made padding more compact */
                 margin-top: 4px !important;
-                margin-bottom: 6px !important; 
+                margin-bottom: 6px !important; /* Shrinks space before steps show up */
                 cursor: pointer !important;
+                
                 display: flex !important;
                 align-items: center !important;
                 justify-content: flex-start !important;
@@ -70,6 +60,7 @@
                 border: 1px solid #334155 !important;
             }
 
+            /* Scenario Header Arrow States */
             .node::before {
                 font-size: 0.8em !important;
                 margin-right: 12px !important;
@@ -77,6 +68,7 @@
                 transition: transform 0.2s ease !important;
                 display: inline-block !important;
             }
+
             .node.collapsed::before { content: "►" !important; }
             .node.expanded::before, .node:not(.collapsed)::before {
                 content: "▼" !important;
@@ -88,6 +80,8 @@
                 font-size: 1.1em !important;
                 font-weight: 700 !important;
                 color: #f1f5f9 !important; 
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             .node .badge {
@@ -104,94 +98,123 @@
             .node .badge.pass-bg { color: #4ade80 !important; }
             .node .badge.fail-bg { color: #f87171 !important; }
 
+
+            /* 3. STEP CARDS COMPACT FLOW (NESTED INDENTATION) */
             .step {
                 background-color: #273549 !important; 
                 border: 1px solid transparent !important; 
                 border-left: 3px solid #475569 !important; 
+                
                 margin-left: 28px !important; 
                 margin-right: 4px !important;
                 margin-top: 0 !important;
-                margin-bottom: 4px !important; 
+                margin-bottom: 4px !important; /* Tightens gap between parallel step lines */
+                
                 display: block !important;
                 cursor: pointer !important;
-                padding: 8px 36px 8px 14px !important; 
+                padding: 8px 36px 8px 14px !important; /* Tighter vertical padding */
                 border-radius: 0 4px 4px 0 !important;
                 position: relative !important;
-                transition: background-color 0.15s ease, border-left-color 0.15s ease !important;
+                transition: all 0.15s ease-in-out !important;
+            }
+
+            .step:hover {
+                background-color: #334155 !important; 
+                border-left-color: #38bdf8 !important; 
             }
 
             .step span {
                 font-size: 1em;
                 display: inline-block;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
+            /* Disclosure Indicator Chevron */
             .step::after {
                 content: "❯" !important;
                 position: absolute !important;
                 right: 16px !important;
-                top: 14px !important; 
+                top: 50% !important;
+                transform: translateY(-50%) !important;
                 font-size: 0.75em !important;
                 color: #64748b !important;
                 transition: transform 0.2s ease, color 0.2s ease !important;
             }
 
-            .step:hover { background-color: #2d3d54 !important; }
-
-            .step.is-open {
-                background-color: #334155 !important; 
-                border-left-color: #38bdf8 !important;
-            }
-            .step.is-open::after {
-                transform: rotate(90deg) !important;
+            .step:hover::after {
+                transform: translateY(-50%) rotate(90deg) !important;
                 color: #cbd5e1 !important;
             }
 
+            /* Log panels expansion control */
             .step > div {
                 max-height: 0 !important;
                 overflow: hidden !important;
-                opacity: 0 !important;
-                transition: max-height 0.2s ease-out, opacity 0.15s ease !important;
+                transition: max-height 0.2s ease-in-out !important;
                 display: block !important;
                 margin: 0 !important;
                 padding: 0 !important;
             }
 
-            .step.is-open > div {
-                max-height: 4000px !important; 
-                opacity: 1 !important;
-                margin-top: 6px !important;
+            .step:hover > div {
+                max-height: 2000px !important;
+                margin-top: 4px !important;
                 margin-bottom: 2px !important;
-                overflow: visible !important;
             }
 
-            .step.pass-bg span, .step[status="pass"] span { color: #4ade80 !important; font-weight: 600 !important; }
-            .step.fail-bg span, .step[status="fail"] span { color: #f87171 !important; font-weight: 700 !important; }
 
-            .step > div { padding-left: 8px !important; }
+            /* 4. STEP STATUS COLORS */
+            .step.pass-bg span, .step[status="pass"] span {
+                color: #4ade80 !important; 
+                font-weight: 600 !important;
+            }
+            .step.fail-bg span, .step[status="fail"] span {
+                color: #f87171 !important; 
+                font-weight: 700 !important;
+            }
 
-            /* =========================================================================
-               CLEAN LOG CONSOLE RESET
-               ========================================================================= */
+
+            /* 5. MINIMAL LOG CONSOLE */
+            .step > div {
+                padding-left: 8px !important; 
+            }
+
             .Pass, .Fail {
                 background-color: #0f172a !important; 
                 font-family: monospace !important;
                 font-size: 0.85em !important;
                 border-radius: 4px;
-                display: block !important; 
+                display: block !important;
                 width: 99% !important;
-                box-sizing: border-box !important;
                 padding: 6px 10px !important;
                 margin-top: 3px !important;      
                 margin-bottom: 3px !important;   
                 border: none !important;
             }
-            .Pass { color: #94a3b8 !important; border-left: 3px solid #4ade80 !important; }
-            .Fail { color: #f87171 !important; border-left: 3px solid #ef4444 !important; font-weight: bold !important; }
 
-            /* Strip out default media elements if alternate framework blocks generate them */
-            .media-container, .step-attachments {
-                display: none !important;
+            .Pass {
+                color: #94a3b8 !important;             
+                border-left: 3px solid #4ade80 !important; 
             }
+
+            .Fail {
+                color: #f87171 !important;             
+                border-left: 3px solid #ef4444 !important;
+                font-weight: bold !important;
+            }
+            
+           .screenshot{
+           height:100px;
+           width:100%;
+           margin-top:1px;
+           margin-bottom:2px;
+           object-fit:cover;
+           border:1px solid #ccc;
+           border-radius:5px;
+           margin-right:5px;
+           }
+           
             ]]>
         </css>
     </configuration>
