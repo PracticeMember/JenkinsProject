@@ -38,6 +38,46 @@ public class Login extends BasePage{
     public void enterPassword(String password) {
         driver.findElement(passwordField).sendKeys(password);
         Logger.log(Status.PASS,"Entered Password");
+        Logger.log(Status.INFO, "Processing Order...");
+
+     // Start the section
+     Logger.startSection("Payment Details");
+
+//     Logger.log(Status.PASS, "Transaction ID: 12345");
+//     Logger.log(Status.INFO, "Gateway Response: Success");
+//     Logger.captureSnapshot(driver);
+     
+         // Nested Section
+         Logger.startSection("Bank Response");
+         Logger.log(Status.INFO, "Bank: HDFC");
+         Logger.log(Status.PASS, "Status: Verified");
+         Logger.log(Status.FAIL, "Status: Verified");
+         
+         Logger.captureSnapshot(driver);
+         
+         Logger.endSection();
+         
+         Logger.startSection("Bank Response");
+         Logger.log(Status.INFO, "Bank: HDFC");
+         Logger.log(Status.PASS, "Status: Verified");
+         Logger.log(Status.FAIL, "Status: Verified");
+         
+         Logger.captureSnapshot(driver);
+         
+         Logger.endSection();
+         
+         Logger.startSection("Bank Response");
+         Logger.log(Status.INFO, "Bank: HDFC");
+         Logger.log(Status.PASS, "Status: Verified");
+         Logger.log(Status.FAIL, "Status: Verified");
+         
+         Logger.captureSnapshot(driver);
+         
+         Logger.endSection();
+
+     Logger.endSection(); // Closes Payment Details
+
+     Logger.log(Status.PASS, "Order Completed Successfully");
     }
 
     public void clickLogin() {

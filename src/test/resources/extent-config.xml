@@ -10,9 +10,9 @@
 
         <js>
             <![CDATA[
-            document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
                 // Stable click-toggle management
-                document.body.addEventListener('click', function(event) {
+              document.body.addEventListener('click', function(event) {
                     var step = event.target.closest('.step');
                     if (step) {
                         if (event.target.closest('.Pass') || event.target.closest('.Fail') || event.target.closest('a') || event.target.closest('table')) {
@@ -22,169 +22,244 @@
                     }
                 });
             });
+            
+    document.addEventListener("DOMContentLoaded", function() {
+   	function bindFeatherlight() {
+        $('a[data-featherlight="image"]').featherlight();
+    }
+
+    bindFeatherlight();
+
+    setTimeout(bindFeatherlight, 1000);
+    
+
+    document.body.addEventListener('click', function(e) {
+        var target = e.target.closest('a[data-featherlight="image"]');
+        if (target) {
+            e.preventDefault();
+            $(target).featherlight();
+            $(target).click();
+        }
+   		 });
+	});
+
+
+	document.addEventListener("DOMContentLoaded", function() {
+    document.body.addEventListener('click', function(e) {
+        // If the click is inside the Featherlight modal content
+        if (e.target.closest('.featherlight-content')) {
+            e.stopPropagation();
+        }
+        
+        // Specifically force close on the icon if it's struggling
+        if (e.target.classList.contains('featherlight-close-icon')) {
+            e.stopPropagation();
+            $('.featherlight').fadeOut(100, function() { 
+                $(this).remove(); 
+            });
+          }
+   		 }, true); // The 'true' here is the capture phase, which intercepts clicks before your report logic
+	});
             ]]>
         </js>
 
         <css>
             <![CDATA[
            
-            .card-header, .card-header[role="tab"] {
-                background-color: transparent !important;
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                margin-top: 6px !important; 
-                margin-bottom: 2px !important;
-                display: block !important;
-            }
-
-            .card, .card-body, .collapse, .card-title {
-                background-color: transparent !important;
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            .node {
-                background-color: #1e293b !important; 
-                border: 1px solid #334155 !important;  
-                padding: 10px 14px !important; 
-                margin-top: 4px !important;
-                margin-bottom: 6px !important; 
-                cursor: pointer !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: flex-start !important;
-                line-height: normal !important;
-                position: relative !important;
-            }
-
-            .node.collapsed, .node.expanded, .card-header .node, .card-title .node {
-                background-color: #1e293b !important;
-                background: #1e293b !important;
-                border: 1px solid #334155 !important;
-            }
-
-            .node::before {
-                font-size: 0.8em !important;
-                margin-right: 12px !important;
-                color: #94a3b8 !important;
-                transition: transform 0.2s ease !important;
-                display: inline-block !important;
-            }
-            
-            .node .test-status-name {
-                font-family: sans-serif !important;
-                font-size: 1.1em !important;
-                font-weight: 700 !important;
-                color: #f1f5f9 !important; 
-            }
-
-            .node .badge {
-                background-color: transparent !important;
-                background: transparent !important;
-                box-shadow: none !important;
-                font-family: sans-serif !important;
-                font-size: 1.05em !important;
-                font-weight: 900 !important;
-                padding: 0 !important;
-                margin: 0 10px 0 0 !important; 
-                text-transform: uppercase !important;
-            }
-            .node .badge.pass-bg { color: #4ade80 !important; }
-            .node .badge.fail-bg { color: #f87171 !important; }
-            .node .badge.skip-bg { color: #ff9900 !important; }
-
-            .step {
-                background-color: #273549 !important; 
-                border: 1px solid transparent !important; 
-                border-left: 1px solid #475569 !important; 
-                margin-left: 28px !important; 
-                margin-right: 4px !important;
-                margin-top: 0 !important;
-                margin-bottom: 4px !important; 
-                display: block !important;
-                cursor: pointer !important;
-                padding: 8px 36px 8px 14px !important; 
-                border-radius: 0 4px 4px 0 !important;
-                position: relative !important;
-                transition: background-color 0.15s ease, border-left-color 0.15s ease !important;
-            }
-
-            .step span {
-                font-size: 1em;
-                display: inline-block;
-            }
-
-            .step::after {
-                content: "❯" !important;     
-                position: absolute !important;
-                right: 16px !important;
-                top: 14px !important; 
-                font-size: 0.75em !important;
-                color: #64748b !important;
-                transition: transform 0.2s ease, color 0.2s ease !important;
-            }
-
-            .step:hover { background-color: #2d3d54 !important; }
-
-            .step.is-open {
-                background-color: #334155 !important; 
-                border-left-color: #38bdf8 !important;
-            }
-            .step.is-open::after {
-                transform: rotate(90deg) !important;
-                color: #cbd5e1 !important;
-            }
-
-            .step > div {
-                max-height: 0 !important;
-                overflow: hidden !important;
-                opacity: 0 !important;
-                transition: max-height 0.2s ease-out, opacity 0.15s ease !important;
-                display: block !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            .step.is-open > div {
-                max-height: 4000px !important; 
-                opacity: 1 !important;
-                margin-top: 6px !important;
-                margin-bottom: 2px !important;
-                overflow: visible !important;
-            }
-
-            .step.pass-bg span, .step[status="pass"] span { color: #4ade80 !important; font-weight: 600 !important; }
-            .step.fail-bg span, .step[status="fail"] span { color: #f87171 !important; font-weight: 700 !important; }
-            .step.skip-bg span, .step[status="skip"] span { color: #ff9900 !important; font-weight: 700 !important; }
-
-            .step > div { padding-left: 8px !important; }
-
-            .Pass, .Fail,.Info,.Skip {
-                background-color: #0f172a !important; 
-                font-family: monospace !important;
-                font-size: 0.85em !important;
-                border-radius: 4px;
-                display: block !important; 
-                width: 99% !important;
-                box-sizing: border-box !important;
-                padding: 6px 10px !important;
-                margin-top: 3px !important;      
-                margin-bottom: 3px !important;   
-                border: none !important;
-            }
-            .Pass { color: #94a3b8 !important; border-left: 3px solid #4ade80 !important; }
-            .Fail { color: #f87171 !important; border-left: 3px solid #ef4444 !important; font-weight: bold !important; }
-			.Info { color: #94a3b8 !important; border-left: 3px solid #0ea5e9 !important; }
-            .Skip { color: #94a3b8 !important; border-left: 3px solid #ff9900 !important; }
-            
-            .media-container, .step-attachments {
-                display: none !important;
-            }
+   .card-header, .card-header[role="tab"] {
+     background-color: transparent !important;
+     background: transparent !important;
+     border: none !important;
+     box-shadow: none !important;
+     padding: 0 !important;
+     margin-top: 6px !important;
+     margin-bottom: 2px !important;
+     display: block !important;
+}
+ .card, .card-body, .collapse, .card-title {
+     background-color: transparent !important;
+     background: transparent !important;
+     border: none !important;
+     box-shadow: none !important;
+     padding: 0 !important;
+     margin: 0 !important;
+}
+ .node {
+     background-color: #1e293b !important;
+     border: 1px solid #334155 !important;
+     padding: 10px 14px !important;
+     margin-top: 4px !important;
+     margin-bottom: 6px !important;
+     cursor: pointer !important;
+     display: flex !important;
+     align-items: center !important;
+     justify-content: flex-start !important;
+     line-height: normal !important;
+     position: relative !important;
+}
+ .node.collapsed, .node.expanded, .card-header .node, .card-title .node {
+     background-color: #1e293b !important;
+     background: #1e293b !important;
+     border: 1px solid #334155 !important;
+}
+ .node::before {
+     font-size: 0.8em !important;
+     margin-right: 12px !important;
+     color: #94a3b8 !important;
+     transition: transform 0.2s ease !important;
+     display: inline-block !important;
+}
+ .node .test-status-name {
+     font-family: sans-serif !important;
+     font-size: 1.1em !important;
+     font-weight: 700 !important;
+     color: #f1f5f9 !important;
+}
+ .node .badge {
+     background-color: transparent !important;
+     background: transparent !important;
+     box-shadow: none !important;
+     font-family: sans-serif !important;
+     font-size: 1.05em !important;
+     font-weight: 900 !important;
+     padding: 0 !important;
+     margin: 0 10px 0 0 !important;
+     text-transform: uppercase !important;
+}
+ .node .badge.pass-bg {
+     color: #4ade80 !important;
+}
+ .node .badge.fail-bg {
+     color: #f87171 !important;
+}
+ .node .badge.skip-bg {
+     color: #ff9900 !important;
+}
+ .step {
+     background-color: #273549 !important;
+     border: 1px solid transparent !important;
+     border-left: 1px solid #475569 !important;
+     margin-left: 28px !important;
+     margin-right: 4px !important;
+     margin-top: 0 !important;
+     margin-bottom: 4px !important;
+     display: block !important;
+     cursor: pointer !important;
+     padding: 8px 36px 8px 14px !important;
+     border-radius: 0 4px 4px 0 !important;
+     position: relative !important;
+     transition: background-color 0.15s ease, border-left-color 0.15s ease !important;
+}
+ .step span {
+     font-size: 1em;
+     display: inline-block;
+}
+ .step::after {
+     content: "❯" !important;
+     position: absolute !important;
+     right: 16px !important;
+     top: 14px !important;
+     font-size: 0.75em !important;
+     color: #64748b !important;
+     transition: transform 0.2s ease, color 0.2s ease !important;
+}
+ .step:hover {
+     background-color: #2d3d54 !important;
+}
+ .step.is-open {
+     background-color: #334155 !important;
+     border-left-color: #38bdf8 !important;
+}
+ .step.is-open::after {
+     transform: rotate(90deg) !important;
+     color: #cbd5e1 !important;
+}
+ .step > div {
+     max-height: 0 !important;
+     overflow: hidden !important;
+     opacity: 0 !important;
+     transition: max-height 0.2s ease-out, opacity 0.15s ease !important;
+     display: block !important;
+     margin: 0 !important;
+     padding: 0 !important;
+}
+ .step.is-open > div {
+     max-height: 4000px !important;
+     opacity: 1 !important;
+     margin-top: 6px !important;
+     margin-bottom: 2px !important;
+     overflow: visible !important;
+}
+ .step.pass-bg span, .step[status="pass"] span {
+     color: #4ade80 !important;
+     font-weight: 600 !important;
+}
+ .step.fail-bg span, .step[status="fail"] span {
+     color: #f87171 !important;
+     font-weight: 700 !important;
+}
+ .step.skip-bg span, .step[status="skip"] span {
+     color: #ff9900 !important;
+     font-weight: 700 !important;
+}
+ .step > div {
+     padding-left: 8px !important;
+}
+ .Pass, .Fail,.Info,.Skip {
+     background-color: #0f172a !important;
+     font-family: monospace !important;
+     font-size: 0.85em !important;
+     border-radius: 4px;
+     display: block !important;
+     width: 99% !important;
+     box-sizing: border-box !important;
+     padding: 6px 10px !important;
+     margin-top: 3px !important;
+     margin-bottom: 3px !important;
+     border: none !important;
+}
+ .Pass {
+     color: #94a3b8 !important;
+     border-left: 3px solid #4ade80 !important;
+}
+ .Fail {
+     color: #f87171 !important;
+     border-left: 3px solid #ef4444 !important;
+     font-weight: bold !important;
+}
+ .Info {
+     color: #94a3b8 !important;
+     border-left: 3px solid #0ea5e9 !important;
+}
+ .Skip {
+     color: #94a3b8 !important;
+     border-left: 3px solid #ff9900 !important;
+}
+ .media-container, .step-attachments {
+     display: none !important;
+}
+ .step .step {
+     border-left: 2px solid #38bdf8 !important;
+     margin-left: 10px !important;
+     margin-top: 5px !important;
+     padding-bottom: 5px !important;
+}
+ .step .step .Pass, .step .step .Fail, .step .step .Info {
+     width: auto !important;
+     margin-right: 10px !important;
+}
+ .featherlight-loading .featherlight-content, .featherlight-content {
+     z-index: 2147483649 !important;
+}
+ .featherlight .featherlight-close-icon {
+    /* ... your existing styles ... */
+     pointer-events: auto !important;
+    /* Ensure the button is not being covered by the report's own scrollbar or header */
+     position: absolute !important;
+     top: 10px !important;
+     right: 10px !important;
+}
+ 
             ]]>
         </css>
     </configuration>
