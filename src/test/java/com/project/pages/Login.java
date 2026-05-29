@@ -25,7 +25,9 @@ public class Login extends BasePage{
         driver.get("https://www.saucedemo.com");
         Logger.log(Status.PASS,"Logged in");
         Logger.captureSnapshot(driver);
-        new ImageCompressor(driver).compressImage();
+        new ImageCompressor(driver).compressImage();  
+        Logger.log(Status.INFO,"Logged in");//#18c7ec
+         
     }
 
     public void enterUsername(String username) {
@@ -40,7 +42,6 @@ public class Login extends BasePage{
 
     public void clickLogin() {
         driver.findElement(loginButton).click();
-        Logger.log(Status.FAIL,"Clicked Logged in");
         Logger.captureSnapshot(driver);
         Logger.captureSnapshot(driver);
         Logger.captureSnapshot(driver);

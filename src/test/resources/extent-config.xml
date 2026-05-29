@@ -27,9 +27,7 @@
 
         <css>
             <![CDATA[
-            /* =========================================================================
-               RESTORED EARLY STABLE BASE LAYOUT (ORIGINAL DESIGN)
-               ========================================================================= */
+           
             .card-header, .card-header[role="tab"] {
                 background-color: transparent !important;
                 background: transparent !important;
@@ -77,12 +75,7 @@
                 transition: transform 0.2s ease !important;
                 display: inline-block !important;
             }
-            .node.collapsed::before { content: "►" !important; }
-            .node.expanded::before, .node:not(.collapsed)::before {
-                content: "▼" !important;
-                color: #38bdf8 !important; 
-            }
-
+            
             .node .test-status-name {
                 font-family: sans-serif !important;
                 font-size: 1.1em !important;
@@ -103,11 +96,12 @@
             }
             .node .badge.pass-bg { color: #4ade80 !important; }
             .node .badge.fail-bg { color: #f87171 !important; }
+            .node .badge.skip-bg { color: #ff9900 !important; }
 
             .step {
                 background-color: #273549 !important; 
                 border: 1px solid transparent !important; 
-                border-left: 3px solid #475569 !important; 
+                border-left: 1px solid #475569 !important; 
                 margin-left: 28px !important; 
                 margin-right: 4px !important;
                 margin-top: 0 !important;
@@ -126,7 +120,7 @@
             }
 
             .step::after {
-                content: "❯" !important;
+                content: "❯" !important;     
                 position: absolute !important;
                 right: 16px !important;
                 top: 14px !important; 
@@ -166,13 +160,11 @@
 
             .step.pass-bg span, .step[status="pass"] span { color: #4ade80 !important; font-weight: 600 !important; }
             .step.fail-bg span, .step[status="fail"] span { color: #f87171 !important; font-weight: 700 !important; }
+            .step.skip-bg span, .step[status="skip"] span { color: #ff9900 !important; font-weight: 700 !important; }
 
             .step > div { padding-left: 8px !important; }
 
-            /* =========================================================================
-               CLEAN LOG CONSOLE RESET
-               ========================================================================= */
-            .Pass, .Fail {
+            .Pass, .Fail,.Info,.Skip {
                 background-color: #0f172a !important; 
                 font-family: monospace !important;
                 font-size: 0.85em !important;
@@ -187,8 +179,9 @@
             }
             .Pass { color: #94a3b8 !important; border-left: 3px solid #4ade80 !important; }
             .Fail { color: #f87171 !important; border-left: 3px solid #ef4444 !important; font-weight: bold !important; }
-
-            /* Strip out default media elements if alternate framework blocks generate them */
+			.Info { color: #94a3b8 !important; border-left: 3px solid #0ea5e9 !important; }
+            .Skip { color: #94a3b8 !important; border-left: 3px solid #ff9900 !important; }
+            
             .media-container, .step-attachments {
                 display: none !important;
             }
