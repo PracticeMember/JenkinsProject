@@ -48,6 +48,7 @@ public class Logger {
 	            case PASS: updatedMessage = "<div class='Pass'>" + message + "</div>"; break;
 	            case FAIL: updatedMessage = "<div class='Fail'>" + message + "</div>"; break;
 	            case INFO: updatedMessage = "<div class='Info'>" + message + "</div>"; break;
+	            case SKIP: updatedMessage = "<div class='Skip'>" + message + "</div>"; break;
 	            default:   updatedMessage = "<div class='Info'>" + message + "</div>"; break;
 	        }
 	    
@@ -56,10 +57,13 @@ public class Logger {
 	
 	public static void startSection(String sectionName) {
 	    // We use a specific format that Logger.log can recognize or just format directly
-	    String htmlStart = "<div class='step' onclick='this.classList.toggle(\"is-open\"); event.stopPropagation();'>" +
-	                       "<span style='font-weight:bold; color:#38bdf8;'>" + sectionName + "</span>" +
+	   String htmlStart = "<div class='step' onclick='this.classList.toggle(\"is-open\"); event.stopPropagation();'>" +
+	                       "<span style='font-weight:bold; color:#38bdf8; !important;' class='neutral-title'>" + sectionName + "</span>" +
 	                       "<div style='display:block; padding-left: 10px;'>";
-	   
+//		String htmlStart = "<div class='step' onclick='this.classList.toggle(\"is-open\"); event.stopPropagation();'>" +
+//		                       "<span class='section-title'>" + sectionName + "</span>" +
+//		                       "<div style='display:block; padding-left: 10px;'>";
+		
 	    ExtentCucumberAdapter.getCurrentStep().info(htmlStart);
 	}
 

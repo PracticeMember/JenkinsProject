@@ -50,8 +50,8 @@ public class Login extends BasePage{
          // Nested Section
          Logger.startSection("Bank Response");
          Logger.log(Status.INFO, "Bank: HDFC");
-         Logger.log(Status.PASS, "Status: Verified");
-         Logger.log(Status.FAIL, "Status: Verified");
+         Logger.log(Status.INFO, "Status: Verified");
+         Logger.log(Status.INFO, "Status: Verified");
          
          Logger.captureSnapshot(driver);
          
@@ -60,7 +60,7 @@ public class Login extends BasePage{
          Logger.startSection("Bank Response");
          Logger.log(Status.INFO, "Bank: HDFC");
          Logger.log(Status.PASS, "Status: Verified");
-         Logger.log(Status.FAIL, "Status: Verified");
+         //Logger.log(Status.FAIL, "Status: Verified");
          
          Logger.captureSnapshot(driver);
          
@@ -69,7 +69,7 @@ public class Login extends BasePage{
          Logger.startSection("Bank Response");
          Logger.log(Status.INFO, "Bank: HDFC");
          Logger.log(Status.PASS, "Status: Verified");
-         Logger.log(Status.FAIL, "Status: Verified");
+         Logger.log(Status.SKIP, "Status: Verified");
          
          Logger.captureSnapshot(driver);
          

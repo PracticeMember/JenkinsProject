@@ -60,31 +60,6 @@
           }
    		 }, true); // The 'true' here is the capture phase, which intercepts clicks before your report logic
 	});
-	
-	document.addEventListener("DOMContentLoaded", function() {
-     setTimeout(function() {
-        const sections = document.querySelectorAll('.step');
-        
-        sections.forEach(section => {
-            // This looks inside the specific 'step' container for a 'Fail' class
-            const hasFailure = section.querySelector('.Fail');
-            const hasSkip=section.querySelector('.Skip');
-            const titleSpan = section.querySelector('.neutral-title');
-            
-            if (titleSpan) {
-                if (hasFailure) {
-                    titleSpan.style.setProperty('color', '#f87171', 'important');
-                }
-                else if(hasSkip){
-                    titleSpan.style.setProperty('color', '#ff9900', 'important');
-                }
-                 else {
-                    titleSpan.style.setProperty('color', '#4ade80', 'important');
-                }
-            }
-        });
-    }, 1000);
-});
             ]]>
         </js>
 
@@ -268,8 +243,6 @@
      margin-left: 10px !important;
      margin-top: 5px !important;
      padding-bottom: 5px !important;
-     background-color: #273549 !important; 
-     border-left: 2px solid #38bdf8 !important;
 }
  .step .step .Pass, .step .step .Fail, .step .step .Info {
      width: auto !important;
@@ -279,41 +252,51 @@
      z-index: 2147483649 !important;
 }
  .featherlight .featherlight-close-icon {
+    /* ... your existing styles ... */
      pointer-events: auto !important;
+    /* Ensure the button is not being covered by the report's own scrollbar or header */
      position: absolute !important;
      top: 10px !important;
      right: 10px !important;
 }
  
-.step .step.fail-bg, .step .step[status="fail"] {
+ 
+ 
+ .step .step {
+    background-color: #273549 !important; 
+    border-left: 2px solid #38bdf8 !important;
+}
+
+/* 2. Explicitly override the 'fail-bg' color for nested steps */
+/* This is the key: it forces nested steps back to your dark theme color */
+.step .step.fail-bg, 
+.step .step[status="fail"] {
     background-color: #273549 !important; 
 }
 
+/* 3. Ensure nested steps don't inherit the parent's red border */
 .step .step.fail-bg {
     border-left: 2px solid #38bdf8 !important;
 }
 
+/* 4. Keep the text colors inside subsections specific to their own status */
+/* This ensures only the actual failed line turns red */
 .step .step.fail-bg span, .step .step[status="fail"] span {
     color: #f87171 !important;
 }
 
+/* 5. Clean up layout for nested items */
 .step .step {
     margin-left: 15px !important;
     margin-right: 0px !important;
     margin-top: 5px !important;
 }
 
+/* 6. Ensure the 'Fail' log line itself remains styled correctly */
 .step .step .Fail {
     background-color: #0f172a !important;
     border-left: 3px solid #ef4444 !important;
     color: #f87171 !important;
-}
-
-
-.step.fail-bg .neutral-title, .step.pass-bg .neutral-title,
-.step[status="fail"] .neutral-title,.step[status="pass"] .neutral-title {
-    color: #cbd5e1 !important; 
-    font-weight: bold !important;
 }
             ]]>
         </css>
